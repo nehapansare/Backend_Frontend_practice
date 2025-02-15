@@ -9,7 +9,7 @@ function Home() {
     // Fetch Films from Backend
     const loadFilms = async () => {
         try {
-            const response = await axios.get('http://localhost:5002/films');
+            const response = await axios.get(`${process.env.REACT_APP_APIURL}/films`);
             setFilms(response.data.data);
             toast.success("Films loaded successfully!");
         } catch (error) {
