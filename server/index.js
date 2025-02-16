@@ -119,6 +119,67 @@ app.delete("/deleteById/:id", async (req, res) => {
     }
 });
 
+app.put("/updateFilm/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const{title,
+            director,
+            poster,
+            releaseYear,
+            language,
+            rating} = req.body; // Only the fields you want to update
+
+        const updatedFilm = await Flim.updateOne(
+            { _id: id },
+            { title:title,
+                director:director,
+                poster:poster,
+                releaseYear:releaseYear,
+                language:language,
+                rating:rating }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Film updated successfully",
+            data: updatedFilm,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Error updating film",
+            error: error.message,
+        });
+    }
+});
+
+
+
+
+app.patch("/updateFilmRating/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const{
+            rating} = req.body; // Only the fields you want to update
+
+        const updatedFilm = await Flim.updateOne(
+            { _id: id },
+            {   rating:rating }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Film rating successfully",
+            data: updatedFilm,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Error updating film",
+            error: error.message,
+        });
+    }
+});
 
 // Handle 404 errors
 app.get("*", getNotFound);
